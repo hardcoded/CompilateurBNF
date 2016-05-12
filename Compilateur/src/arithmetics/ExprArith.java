@@ -1,4 +1,4 @@
-package test;
+package arithmetics;
 
 abstract class ExprArith {
     abstract int eval ();
