@@ -353,7 +353,9 @@ class PPArrayAlloc extends PPExpr {
 /* Instructions */
 /****************/
 
-abstract class PPInst {}//PPInst
+abstract class PPInst {
+	abstract UPPInst toUPP(ArrayList<String> locals);
+}//PPInst
 
 class PPAssign extends PPInst {
 
@@ -527,7 +529,7 @@ class PPFun extends PPDef {
     		nall.add(e.left);
     	}
     	
-    	ncode = code.toUPPFun(nall);
+    	ncode = code.toUPP(nall);
     	return new UPPFun(name, nargs, nlocals, ncode);
     }
 }//PPFun
@@ -542,6 +544,22 @@ class PPProc extends PPDef {
         this.code = code;
     }//PPProc
 
+	@Override
+	UPPDef toUPP() {
+		ArrayList<String> nargs = new ArrayList<>();
+		ArrayList<String> nlocals = new ArrayList<>();
+		UPPInst ncode;
+		for(Pair<String,Type> e : args) {
+			nargs.add(e.left);
+		}
+		for(Pair<String, Type> e : locals) {
+			nlocals.add(e.left);
+		}
+		ncode = this.code.toUPP(new ArrayList<>());
+		return new UPPProc(this.name, nargs, nlocals, ncode);
+	}
+
+    
 }//PPProc
 
 /************/
