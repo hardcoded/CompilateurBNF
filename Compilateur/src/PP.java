@@ -1,5 +1,3 @@
-
-
 import java.util.*;
 
 /*********/
@@ -527,8 +525,7 @@ class PPFun extends PPDef {
     	for(Pair<String, Type> e : locals) {
     		nlocals.add(e.left);
     		nall.add(e.left);
-    	}
-    	
+    	}   	
     	ncode = code.toUPP(nall);
     	return new UPPFun(name, nargs, nlocals, ncode);
     }
