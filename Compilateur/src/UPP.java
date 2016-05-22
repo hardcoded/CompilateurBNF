@@ -32,7 +32,8 @@ class UPPVar extends UPPExpr {
     }//UPPVar
 
     public String toString() {
-    	return this.name;
+    	String res = "local " + this.name;
+    	return res;
     }
 }//UPPVar
 
@@ -45,7 +46,8 @@ class UPPGVar extends UPPExpr {
     }//UPPGVar
 
     public String toString() {
-    	return this.name;
+    	String res = "global " + this.name;
+    	return res;
     }
 }//UPPGVar
 
