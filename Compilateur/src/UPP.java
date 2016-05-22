@@ -361,6 +361,11 @@ class UPPSeq extends UPPInst {
         this.i2 = i2;
     }//UPPSeq
 
+	public String toString() {
+		String res = this.i1.toString() + ";" + this.i2.toString();
+		return res;
+	}
+
 }//UPPSeq
 
 /***************************************/
