@@ -369,6 +369,9 @@ class UPPLoad extends UPPExpr {
 
     RTLInst toRTL (ArrayList<Pair<String,PRegister>> locals,
                    ArrayList<String> globals, PRegister reg, RTLInst succ) {
+
+
+        return new RTLLoad(addr, regOut, succ);
         //TODO
     }//toRTL
 
@@ -587,7 +590,26 @@ class UPPProc extends UPPDef {
     }//UPPProc
 
     RTLDef toRTL (ArrayList<String> globals) {
-        //TODO
+        ArrayList<PRegister> regArgs = new ArrayList<PRegister>();
+        ArrayList<PRegister> regLocals = new ArrayList<PRegister>();
+        ArrayList<Pair<String,PRegister>> regTrans =
+            new ArrayList<Pair<String,PRegister>>();
+        PRegister regRet = null;
+        for (String e : args) {
+            PRegister reg = new PRegister ();
+            Pair<String,PRegister> p = new Pair<String,PRegister>(e,reg);
+            regArgs.add(reg);
+            regLocals.add(reg);
+            regTrans.add(p);
+        }//for
+        for (String e : locals) {
+            PRegister reg = new PRegister ();
+            Pair<String,PRegister> p = new Pair<String,PRegister>(e,reg);
+            regLocals.add(reg);
+            regTrans.add(p);
+        }//for
+        RTLInst body = code.toRTL(regTrans,globals,new RTLEnd());
+        return new RTLFun(name,regArgs,regLocals,body);
     }//toRTL
 
 }//UPPProc
