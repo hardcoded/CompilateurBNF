@@ -518,7 +518,7 @@ class UPPSeq extends UPPInst {
         //TODO
     }//toRTL        
 
-	public String toString()Â {
+	public String toString() {
 		String res = this.i1.toString() + ";" + this.i2.toString();
 		return res;
 	}
