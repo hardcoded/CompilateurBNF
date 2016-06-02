@@ -45,6 +45,21 @@ public class Graph {
 	}
 	
 	/**
+	 * Get the adjacent edges of a vertex
+	 * @param vertex the vertex to retrieve the adjacent edges
+	 * @return the list of adjacent edges
+	 */
+	public ArrayList<Edge> getAdjacentEdges(Vertex vertex) {
+		ArrayList<Edge> adjacentEdges = new ArrayList<Edge>();
+		for (Edge edge : this.edges) {
+			if (edge.containsVertex(vertex)) {
+				adjacentEdges.add(edge);
+			}
+		}
+		return adjacentEdges;
+	}
+	
+	/**
 	 * Add a vertex to the list of vertices
 	 * @param vertex the vertex to add
 	 * @return true if the vertex has been added, false if not
