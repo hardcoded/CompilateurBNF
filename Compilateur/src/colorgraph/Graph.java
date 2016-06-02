@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Representing the graph to put colors on
- * @author Johan Brunet - Charlène Pizzoni
+ * @author Johan Brunet - Charlene Pizzoni
  *
  */
 public class Graph {
@@ -57,6 +57,75 @@ public class Graph {
 			}
 		}
 		return adjacentEdges;
+	}
+	
+	/**
+	 * Color a graph
+	 * @param k is the number of registers (colors) we can use
+	 */
+	public void colorGraph(int k){
+		Graph graph = new Graph(this.vertices, this.edges);
+		Vertex vertex;
+		// treat every vertices
+		while (graph.getNumberOfVertices()>1){
+			// remove first edge with a number of neighbors inferior to k
+			vertex = graph.getAVertexWithLessThanKNeighbor(k);
+			if (vertex == null){
+				// spill the edge with the highest weight
+				Vertex vertexToSpill = graph.getVertexWithHighestWeigh();
+				this.getVertex(vertexToSpill).setColor(0);
+				graph.removeVertex(vertexToSpill);
+			} else {
+				//TODO
+				// remove the vertex from our graph because not found
+			}
+		}
+	}
+	
+	public Vertex getVertexWithHighestWeigh(){
+		Vertex v;
+		//TODO
+		return null;
+	}
+	
+	/**
+	 * return the vertex of the current graph equals to the given vertex
+	 * @param vertex value we want to find
+	 * @return a vertex of the current graph
+	 */
+	public Vertex getVertex(Vertex vertex){
+		Vertex v = null;
+		boolean found = false;
+		int i = 0;
+		while (!found){
+			if (this.vertices.get(i).getValue().equals(vertex.getValue())){
+				found = true;
+				v =this.vertices.get(i);
+			}
+		}
+		return v;
+	}
+	
+	public Vertex getAVertexWithLessThanKNeighbor(int k){
+		boolean found = false;
+		int i = 0;
+		Vertex vertex = null;
+		while (!found){
+			if (getVertexWeight(this.vertices.get(i)) < k){
+				vertex = this.vertices.get(i);
+				found = true;
+			}
+			i++;
+		}
+		return vertex;
+	}
+	
+	/**
+	 * return the number of vertices in this graph
+	 * @return number of vertices in the graph
+	 */
+	public int getNumberOfVertices(){
+		return this.vertices.size();
 	}
 	
 	/**

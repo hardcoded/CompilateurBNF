@@ -2,7 +2,7 @@ package colorgraph;
 
 /**
  * Representing a preference edge
- * @author Johan Brunet - Charlène Pizzoni
+ * @author Johan Brunet - Charlene Pizzoni
  *
  */
 public class PreferenceEdge extends Edge {

@@ -2,7 +2,7 @@ package colorgraph;
 
 /**
  * Representing a vertex of the graph
- * @author Johan Brunet - Charlène Pizzoni
+ * @author Johan Brunet - Charlene Pizzoni
  *
  */
 public class Vertex {

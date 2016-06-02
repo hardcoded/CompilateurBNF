@@ -2,7 +2,7 @@ package colorgraph;
 
 /**
  * Representing an interference edge
- * @author Johan Brunet - Charlène Pizzoni
+ * @author Johan Brunet - Charlene Pizzoni
  *
  */
 public class InterferenceEdge extends Edge {

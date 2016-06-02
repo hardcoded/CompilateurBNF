@@ -2,7 +2,7 @@ package colorgraph;
 
 /**
  * Representing an edge of the graph
- * @author Johan Brunet - Charlène Pizzoni
+ * @author Johan Brunet - Charlene Pizzoni
  *
  */
 public abstract class Edge {
