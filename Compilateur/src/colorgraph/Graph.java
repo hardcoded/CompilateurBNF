@@ -30,6 +30,32 @@ public class Graph {
 	}
 	
 	/**
+	 * Color a graph
+	 * @param k is the number of registers (colors) we can use
+	 */
+	public void colorGraph(int k){
+		Graph graph = new Graph(this.vertices, this.edges);
+		Vertex vertex;
+		// treat every vertices
+		while (graph.getNumberOfVertices()>1){
+			// remove first edge with a number of neighbors inferior to k
+			vertex = graph.getAVertexWithLessThanKNeighbor(k);
+			if (vertex == null){
+				// spill the edge with the highest weight
+				Vertex vertexToSpill = graph.getVertexWithHighestWeigh();
+				this.getVertex(vertexToSpill).setColor(0);
+				graph.removeVertex(vertexToSpill);
+			} else {
+				//TODO
+				// supp the vertex from graph
+				// add vertex into list for coloring
+				// remove the vertex from graph because not found
+			}
+		}
+		// color vertices in "this" Graphe
+	}
+
+	/**
 	 * Get the weight of a vertex, the weight is the number of adjacent edges
 	 * @param vertex the vertex to get the weight
 	 * @return the weight of the vertex
@@ -59,33 +85,16 @@ public class Graph {
 		return adjacentEdges;
 	}
 	
-	/**
-	 * Color a graph
-	 * @param k is the number of registers (colors) we can use
-	 */
-	public void colorGraph(int k){
-		Graph graph = new Graph(this.vertices, this.edges);
-		Vertex vertex;
-		// treat every vertices
-		while (graph.getNumberOfVertices()>1){
-			// remove first edge with a number of neighbors inferior to k
-			vertex = graph.getAVertexWithLessThanKNeighbor(k);
-			if (vertex == null){
-				// spill the edge with the highest weight
-				Vertex vertexToSpill = graph.getVertexWithHighestWeigh();
-				this.getVertex(vertexToSpill).setColor(0);
-				graph.removeVertex(vertexToSpill);
-			} else {
-				//TODO
-				// remove the vertex from our graph because not found
+	public Vertex getVertexWithHighestWeigh(){
+		Vertex res = null;
+		int nbMax = -1;
+		for (Vertex v : this.vertices){
+			if (this.getAdjacentEdges(v) > nbMax){
+				res = v;
+				nbMax = getAdjacentEdges(v);
 			}
 		}
-	}
-	
-	public Vertex getVertexWithHighestWeigh(){
-		Vertex v;
-		//TODO
-		return null;
+		return res;
 	}
 	
 	/**
