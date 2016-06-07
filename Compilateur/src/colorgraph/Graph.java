@@ -87,11 +87,12 @@ public class Graph {
 	
 	public Vertex getVertexWithHighestWeigh(){
 		Vertex res = null;
-		int nbMax = -1;
+		int maxWeight = -1;
 		for (Vertex v : this.vertices){
-			if (this.getAdjacentEdges(v) > nbMax){
+			int weight = this.getAdjacentEdges(v).size();
+			if (weight > maxWeight){
 				res = v;
-				nbMax = getAdjacentEdges(v);
+				maxWeight = weight;
 			}
 		}
 		return res;
