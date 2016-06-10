@@ -1,6 +1,8 @@
 package colorgraph;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Representing the graph to put colors on
@@ -9,24 +11,19 @@ import java.util.ArrayList;
  */
 public class Graph {
 
-	/**
-	 * The list of all vertices in the graph
-	 */
 	private ArrayList<Vertex> vertices;
-	
-	/**
-	 * The list of all edges in the graph
-	 */
-	private ArrayList<Edge> edges;
+	private ArrayList<InterferenceEdge> iedges;
+	private ArrayList<PreferenceEdge> pedges;
 	
 	/**
 	 * Constructor of Graph, instantiates a new graph with a list of vertices and edges
 	 * @param vertices list of vertices
 	 * @param edges list of edges
 	 */
-	public Graph(ArrayList<Vertex> vertices, ArrayList<Edge> edges) {
+	public Graph(ArrayList<Vertex> vertices, ArrayList<InterferenceEdge> iedges, ArrayList<PreferenceEdge> pedges) {
 		this.vertices = vertices;
-		this.edges = edges;
+		this.iedges = iedges;
+		this.pedges = pedges;
 	}
 	
 	/**
@@ -34,18 +31,18 @@ public class Graph {
 	 * @param k is the number of registers (colors) we can use
 	 */
 	public void colorGraph(int k){
-		Graph graph = new Graph(this.vertices, this.edges);
+		Graph g = new Graph(this.vertices, this.iedges, this.pedges);
 		Vertex vertex;
 		ArrayList<Vertex> toColor = new ArrayList<Vertex>();
 		// treat every vertices
-		while (graph.getNumberOfVertices()>1){
+		while (g.getNumberOfVertices()>1){
 			// remove first edge with a number of neighbors inferior to k
-			vertex = graph.getAVertexWithLessThanKNeighbor(k);
+			vertex = g.getAVertexWithLessThanKNeighbor(k);
 			if (vertex == null){
 				// spill the edge with the highest weight
-				Vertex vertexToSpill = graph.getVertexWithHighestWeigh();
+				Vertex vertexToSpill = g.getVertexWithHighestWeigh();
 				this.getVertex(vertexToSpill).setColor(0);
-				graph.removeVertex(vertexToSpill);
+				g.removeVertex(vertexToSpill);
 			} else {
 				//TODO
 				// supp the vertex from graph
@@ -54,8 +51,11 @@ public class Graph {
 			}
 			toColor.add(vertex);
 		}
-		// color vertices in "this" Graphe
-		
+		// color vertices in "this" Graph
+		Collections.reverse(toColor);
+		// add the vertex in g
+		// choose a color
+		// color the Graph threaten
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class Graph {
 	 */
 	public int getVertexWeight(Vertex vertex) {
 		int i = 0;
-		for (Edge edge : this.edges) {
+		for (Edge edge : this.iedges) {
 			if (edge.containsVertex(vertex)) {
 				i++;
 			}
@@ -80,7 +80,7 @@ public class Graph {
 	 */
 	public ArrayList<Edge> getAdjacentEdges(Vertex vertex) {
 		ArrayList<Edge> adjacentEdges = new ArrayList<Edge>();
-		for (Edge edge : this.edges) {
+		for (Edge edge : this.iedges) {
 			if (edge.containsVertex(vertex)) {
 				adjacentEdges.add(edge);
 			}
@@ -159,22 +159,20 @@ public class Graph {
 		return this.vertices.remove(vertex);
 	}
 	
-	/**
-	 * Add an edge to the list of edges
-	 * @param edge the edge to add
-	 * @return true if the edge has been added, false if not
-	 */
-	public boolean addEdge(Edge edge) {
-		return this.edges.add(edge);
+	public boolean addInterferenceEdge(InterferenceEdge edge) {
+		return this.iedges.add(edge);
 	}
 	
-	/**
-	 * Remove an edge from the list of edges
-	 * @param edge the edge to remove
-	 * @return true if the edge has been removed, false if not
-	 */
-	public boolean removeEdge(Edge edge) {
-		return this.edges.remove(edge);
+	public boolean addPreferenceferenceEdge(PreferenceEdge edge) {
+		return this.pedges.add(edge);
+	}
+	
+	public boolean removeInterferenceEdge(Edge edge) {
+		return this.iedges.remove(edge);
+	}
+	
+	public boolean removePreferenceEdge(Edge edge) {
+		return this.iedges.remove(edge);
 	}
 	
 	/**
@@ -193,19 +191,21 @@ public class Graph {
 		this.vertices = vertices;
 	}
 	
-	/**
-	 * Get the list of edges of the graph
-	 * @return the list of edges
-	 */
-	public ArrayList<Edge> getEdges() {
-		return edges;
+
+	public ArrayList<PreferenceEdge> getPreferenceEdges() {
+		return pedges;
 	}
 	
-	/**
-	 * Set the list of edges of the graph
-	 * @param edges the list of edges
-	 */
-	public void setEdges(ArrayList<Edge> edges) {
-		this.edges = edges;
+	public ArrayList<InterferenceEdge> getInterferenceEdges() {
+		return iedges;
+	}
+	
+
+	public void setPreferenceEdges(ArrayList<PreferenceEdge> edges) {
+		this.pedges = edges;
+	}
+	
+	public void setInterferenceEdges(ArrayList<PreferenceEdge> edges) {
+		this.pedges = edges;
 	}
 }
