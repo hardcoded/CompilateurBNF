@@ -208,4 +208,15 @@ public class Graph {
 	public void setInterferenceEdges(ArrayList<PreferenceEdge> edges) {
 		this.pedges = edges;
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (Vertex v : vertices) {
+			sb.append(v.getValue());
+			sb.append(" - ");
+			sb.append(v.getColor());
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 }
