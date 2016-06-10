@@ -31,7 +31,7 @@ public class Graph {
 	 * @param k is the number of registers (colors) we can use
 	 */
 	public void colorGraph(int k){
-		Graph g = new Graph(this.vertices, this.iedges, this.pedges);
+		Graph g = new Graph(new ArrayList<Vertex>(this.vertices), new ArrayList<InterferenceEdge>(this.iedges), new ArrayList<PreferenceEdge>(this.pedges));
 		Vertex vertex;
 		ArrayList<Vertex> toColor = new ArrayList<Vertex>();
 		// treat every vertices
@@ -54,6 +54,44 @@ public class Graph {
 		// add the vertex in g
 		// choose a color
 		// color the Graph threaten
+		
+		while (!toColor.isEmpty()) {
+			System.out.println("start coloring");
+			 Vertex vertexToColor = toColor.get(0);
+			int i;
+			boolean available;
+			for (i = 1; i <= k; i++) {
+				available = true;
+				for (Edge interf : this.iedges) {
+					Vertex neighbor = interf.getNeighbor(vertexToColor);
+					if (neighbor.getColor() == i) {
+						available = false;
+					}
+				}
+				if (available) {
+					vertexToColor.setColor(i);
+					break;
+				}
+				for (Edge pref : this.pedges) {
+					Vertex neighbor = pref.getNeighbor(vertexToColor);
+					if (neighbor.getColor() != -1 && neighbor.getColor() != 0) {
+						available = true;
+						for (Edge e : this.iedges) {
+							Vertex v = e.getNeighbor(vertexToColor);
+							if (v.getColor() == neighbor.getColor()) {
+								available = false;
+							}
+						}
+						if (available) {
+							vertexToColor.setColor(neighbor.getColor());
+							break;
+						}
+					}
+				}
+			}
+			toColor.remove(vertexToColor);
+			System.out.println("Vertex colored and removed");
+		}
 	}
 
 	/**
@@ -111,7 +149,7 @@ public class Graph {
 		while (!found){
 			if (this.vertices.get(i).getValue().equals(vertex.getValue())){
 				found = true;
-				v =this.vertices.get(i);
+				v = this.vertices.get(i);
 			}
 		}
 		return v;
@@ -121,7 +159,7 @@ public class Graph {
 		boolean found = false;
 		int i = 0;
 		Vertex vertex = null;
-		while (!found){
+		while (!found && i < this.vertices.size()){
 			if (getVertexWeight(this.vertices.get(i)) < k){
 				vertex = this.vertices.get(i);
 				found = true;

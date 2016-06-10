@@ -68,4 +68,13 @@ public abstract class Edge {
 	public void setV2(Vertex v2) {
 		this.v2 = v2;
 	}
+
+	public Vertex getNeighbor(Vertex vertex) {
+		if (vertex.equals(this.v1)) {
+			return this.v2;
+		}
+		else {
+			return this.v1;
+		}
+	}
 }
