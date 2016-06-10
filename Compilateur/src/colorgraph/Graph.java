@@ -36,6 +36,7 @@ public class Graph {
 	public void colorGraph(int k){
 		Graph graph = new Graph(this.vertices, this.edges);
 		Vertex vertex;
+		ArrayList<Vertex> toColor = new ArrayList<Vertex>();
 		// treat every vertices
 		while (graph.getNumberOfVertices()>1){
 			// remove first edge with a number of neighbors inferior to k
@@ -51,8 +52,10 @@ public class Graph {
 				// add vertex into list for coloring
 				// remove the vertex from graph because not found
 			}
+			toColor.add(vertex);
 		}
 		// color vertices in "this" Graphe
+		
 	}
 
 	/**
