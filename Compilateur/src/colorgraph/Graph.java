@@ -36,20 +36,18 @@ public class Graph {
 		ArrayList<Vertex> toColor = new ArrayList<Vertex>();
 		// treat every vertices
 		while (g.getNumberOfVertices()>1){
-			// remove first edge with a number of neighbors inferior to k
+			// select the first edge with a number of neighbors inferior to k
 			vertex = g.getAVertexWithLessThanKNeighbor(k);
 			if (vertex == null){
 				// spill the edge with the highest weight
-				Vertex vertexToSpill = g.getVertexWithHighestWeigh();
-				this.getVertex(vertexToSpill).setColor(0);
-				g.removeVertex(vertexToSpill);
+				vertex = g.getVertexWithHighestWeigh();
+				this.getVertex(vertex).setColor(0);
 			} else {
-				//TODO
-				// supp the vertex from graph
 				// add vertex into list for coloring
-				// remove the vertex from graph because not found
+				toColor.add(vertex);
 			}
-			toColor.add(vertex);
+			// supp the vertex from graph
+			g.removeVertex(vertex);
 		}
 		// color vertices in "this" Graph
 		Collections.reverse(toColor);
@@ -151,11 +149,16 @@ public class Graph {
 	}
 	
 	/**
-	 * Remove a vertex from the list of vertices
+	 * Remove a vertex from the list of vertices AND all this preferences Edges
 	 * @param vertex the vertex to remove
 	 * @return true if the vertex has been removed, false if not
 	 */
 	public boolean removeVertex(Vertex vertex) {
+		for (Edge e : this.pedges){
+			if (e.containsVertex(vertex)){
+				this.removePreferenceEdge(e);
+			}
+		}
 		return this.vertices.remove(vertex);
 	}
 	
