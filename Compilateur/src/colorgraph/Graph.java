@@ -55,17 +55,19 @@ public class Graph {
 		// choose a color
 		// color the Graph threaten
 		
-		while (!toColor.isEmpty()) {
+		/*while (!toColor.isEmpty()) {
 			System.out.println("start coloring");
-			 Vertex vertexToColor = toColor.get(0);
+			Vertex vertexToColor = toColor.get(0);
 			int i;
 			boolean available;
 			for (i = 1; i <= k; i++) {
 				available = true;
 				for (Edge interf : this.iedges) {
 					Vertex neighbor = interf.getNeighbor(vertexToColor);
-					if (neighbor.getColor() == i) {
-						available = false;
+					if (neighbor != null){
+						if (neighbor.getColor() == i) {
+							available = false;
+						}
 					}
 				}
 				if (available) {
@@ -74,24 +76,77 @@ public class Graph {
 				}
 				for (Edge pref : this.pedges) {
 					Vertex neighbor = pref.getNeighbor(vertexToColor);
-					if (neighbor.getColor() != -1 && neighbor.getColor() != 0) {
-						available = true;
-						for (Edge e : this.iedges) {
-							Vertex v = e.getNeighbor(vertexToColor);
-							if (v.getColor() == neighbor.getColor()) {
-								available = false;
+					if (neighbor != null) {
+						if (neighbor.getColor() != -1 && neighbor.getColor() != 0) {
+							available = true;
+							for (Edge e : this.iedges) {
+								Vertex v = e.getNeighbor(vertexToColor);
+								if (v.getColor() == neighbor.getColor()) {
+									available = false;
+								}
 							}
-						}
-						if (available) {
-							vertexToColor.setColor(neighbor.getColor());
-							break;
+							if (available) {
+								vertexToColor.setColor(neighbor.getColor());
+								break;
+							}
 						}
 					}
 				}
 			}
 			toColor.remove(vertexToColor);
 			System.out.println("Vertex colored and removed");
+		}*/
+		
+		//--------------------------second try------------------------------
+		while (!toColor.isEmpty()) {
+			System.out.println("start coloring");
+			Vertex vertexToColor = toColor.get(0);
+			boolean available;
+			ArrayList<Integer> preferenceColors = new ArrayList<Integer>();
+			for (Edge pref : this.pedges) { // get preference colors
+				Vertex neighbor = pref.getNeighbor(vertexToColor);
+				if (neighbor != null) {
+					if (neighbor.getColor() > 0) {
+						preferenceColors.add(neighbor.getColor());
+					}
+				}
+			}
+			for (int i : preferenceColors){ // try preference colors
+				available = true;
+				for (Edge interf : this.iedges) {
+					Vertex neighbor = interf.getNeighbor(vertexToColor);
+					if (neighbor != null){
+						if (neighbor.getColor() == i) {
+							available = false;
+						}
+					}
+				}
+				if (available) {
+					vertexToColor.setColor(i);
+					break;
+				}
+			}
+			if (vertexToColor.getColor() < 0) {
+				for (int i = 1; i <= k; i++) { // choose another color
+					available = true;
+					for (Edge interf : this.iedges) {
+						Vertex neighbor = interf.getNeighbor(vertexToColor);
+						if (neighbor != null){
+							if (neighbor.getColor() == i) {
+								available = false;
+							}
+						}
+					}
+					if (available) {
+						vertexToColor.setColor(i);
+						break;
+					}
+				}
+			}
+			toColor.remove(vertexToColor);
+			System.out.println("Vertex colored and removed");
 		}
+		
 	}
 
 	/**

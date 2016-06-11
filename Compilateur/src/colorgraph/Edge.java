@@ -73,8 +73,10 @@ public abstract class Edge {
 		if (vertex.equals(this.v1)) {
 			return this.v2;
 		}
-		else {
+		else if (vertex.equals(this.v2)) {
 			return this.v1;
+		} else {
+			return null;
 		}
 	}
 }
